@@ -15,9 +15,10 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(UserRepository $userRepository, $isNewlyRegistered)
     {
-        //
+        $results = structuredJson($userRepository->index($isNewlyRegistered));
+        return response()->json($results[0],$results[1],$results[2],$results[3]);
     }
 
     /**
@@ -27,7 +28,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        //There is no view page in an api
     }
 
     /**
@@ -62,7 +63,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        //There is no view page in an api
     }
 
     /**
@@ -86,5 +87,9 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+    public function activateUsers(){
+
     }
 }

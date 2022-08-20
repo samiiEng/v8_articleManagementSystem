@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Hash;
 
 class UserRepository
 {
+    public function index($isNewlyRegistered){
+        $isNewlyRegistered = $isNewlyRegistered ? "WHERE is_active IS NULL" : "";
+        return DB::select("SELECT * FROM users $isNewlyRegistered");
+    }
+
     public function create($validated)
     {
         $personnelCode = random_int(100000000000000000, 9111111111111111111);
@@ -25,6 +30,8 @@ class UserRepository
         $user = User::findOrFail(DB::getPdo()->lastInsertId());
         event(new Registered($user));
 
+        return "The users is created but it takes maximum 2 days after your email and phone number verification to activate
+        your account";
 
     }
 
@@ -50,6 +57,10 @@ class UserRepository
 
     public function restoreDeleted()
     {
+
+    }
+
+    public function activateUsers(){
 
     }
 

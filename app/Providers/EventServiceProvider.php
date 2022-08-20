@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Listeners\SendSMSVerificationNotification;
 use App\Subscribers\ArticleSubscriber;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
