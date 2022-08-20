@@ -57,7 +57,6 @@ class ApiController extends Controller
         }
 
         //Request is validated
-        //Crean token
         try {
             if (! $token = JWTAuth::attempt($credentials)) {
                 return response()->json([
