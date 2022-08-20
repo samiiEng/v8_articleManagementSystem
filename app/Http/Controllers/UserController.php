@@ -39,7 +39,8 @@ class UserController extends Controller
     public function store(StoreUserRequest $request, UserRepository $userRepository)
     {
         $validated = $request->validated();
-        $userRepository->create($validated);
+        $results = structuredJson($userRepository->create($validated));
+        return response()->json($results[0],$results[1],$results[2],$results[3]);
     }
 
     /**

@@ -2,9 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use \App\Http\Controllers\ApiController;
 use \App\Http\Controllers\ArticleController;
 use \App\Http\Controllers\Filter\FilterController;
+use \App\Http\Controllers\UserController;
+use \App\Http\Controllers\VerificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,9 +60,10 @@ Route::prefix('dashboard/')->middleware(['jwt.verify'])->name('dashboard.')->gro
 });
 //----------------------------------------------- End Of Dashboard Group -----------------------------------------------
 
-//*******************login/register
+//*******************login/register/email verification
 Route::post('login', [ApiController::class, 'authenticate']);
-Route::post('register', [ApiController::class, 'register']);
+Route::post('register', [UserController::class, 'store'])->name('register');
+Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'clickedEmailVerificationLink'])->name('verification.verified')->middleware(['signed']);
 
 //*******************Accept/Reject the invitation (Because no message is going to be composed by the user so this route is out of the dashboard route group.)
 Route::get('invitationResponse/{articleID}/{userID}/{parameter}', [ArticleController::class, 'invitationResponse'])->name('invitationResponse')->middleware(['signed']);

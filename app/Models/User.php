@@ -52,4 +52,21 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    protected $primaryKey = 'user_id';
+
+    public function messagesFrom()
+    {
+        $this->hasMany(Message::class, 'from_ref_id', 'user_id');
+    }
+
+    public function messagesTo()
+    {
+        $this->hasMany(Message::class, 'to_ref_id', 'user_id');
+    }
+
+    public function articlesAuthor()
+    {
+        return $this->hasMany(Article::class, 'user_ref_id', 'user_id');
+    }
+
 }
