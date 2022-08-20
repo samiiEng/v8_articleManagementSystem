@@ -22,7 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-
+//******************************************* Dashboard Group **********************************************************
 Route::prefix('dashboard/')->middleware(['jwt.verify'])->name('dashboard.')->group(function () {
 
     //*******************define article
@@ -54,10 +54,10 @@ Route::prefix('dashboard/')->middleware(['jwt.verify'])->name('dashboard.')->gro
 
     //*******************logout
     Route::get('logout', [ApiController::class, 'logout']);
-    Route::get('get_user', [ApiController::class, 'get_user']);
 
 
 });
+//----------------------------------------------- End Of Dashboard Group -----------------------------------------------
 
 //*******************login/register
 Route::post('login', [ApiController::class, 'authenticate']);
