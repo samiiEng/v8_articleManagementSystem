@@ -52,6 +52,8 @@ Route::prefix('dashboard/')->middleware(['jwt.verify'])->name('dashboard.')->gro
 
     Route::post('deleteContributor', [ArticleController::class, 'deleteContributor'])->name('deleteContributor');
 
+    //*******************List all users
+    Route::get('listUsers/{isNewlyRegistered}', [UserController::class, 'index'])->name('listUsers');
 
     //*******************logout
     Route::get('logout', [ApiController::class, 'logout']);
