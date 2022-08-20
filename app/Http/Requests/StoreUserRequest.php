@@ -24,8 +24,8 @@ class StoreUserRequest extends FormRequest
     public function rules()
     {
         return [
-            "first_name" => "required|string|max:50",
-            "last_name" => "required|string|max:50",
+            "firstName" => "required|string|max:50",
+            "lastName" => "required|string|max:50",
             "nationalCode" => "required|integer",
             "username" => "required|string|max:50",
             "password" => "required|string",
@@ -34,7 +34,7 @@ class StoreUserRequest extends FormRequest
             "avatar_image_path" => "required|string",
             "departmentID" => "required|integer",
             "extra" => "required|json",
-            "is_normal" => "required|boolean"
+            "isNormal" => "required|boolean"
         ];
     }
 }
