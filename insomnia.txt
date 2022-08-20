@@ -1,0 +1,84 @@
+﻿
+
+
+
+-------------------
+delete contributors
+-------------------
+{
+	"articleID" : "12",
+	"contributors" :[
+	  {
+		  "contributorID" : "1",
+		  "isWaiting" : "0"
+		},
+	  {
+		  "contributorID" : "2",
+	    "isWaiting" : "1"
+		}
+]
+}
+------------------------
+invitation response
+--------------------
+store article
+--------------
+{
+	"author" : "1",
+	"title" : "The main Title",
+	"body" : "",
+	"contributors" : "1,2",
+	"publishedArticles" : "1,2",
+	"categories" : "1,2",
+	"tags" : "1,2",
+	"messages" : [
+		{
+			"contributorID" : "1",
+			"title" : "hi dear collegue",
+			"body" : ""
+		}
+	]
+}
+-----------------
+filter article by category
+------------------
+{
+	"" : "",
+	
+}
+--------------------
+filter categories by departments
+---------------------------------
+{
+	"" : "",
+	
+}
+----------------------------------
+filter users by deparments
+---------------------------------
+{
+	"outputTable" : "departments",
+	"outputFields" : "*",
+	"hasDistinct" : "",
+	"0" : {
+		"field" : "department_ref_id",
+		"operator" : "IS NULL",
+		"value" : "",
+		"next" : ""
+	}
+}
+----------------------------------
+defineArticle
+-------------
+{
+	"outputTable" : "departments",
+	"outputFields" : "*",
+	"hasDistinct" : "",
+	"0" : {
+		"field" : "department_ref_id",
+		"operator" : "IS NULL",
+		"value" : "",
+		"next" : ""
+	}
+}
+--------------
