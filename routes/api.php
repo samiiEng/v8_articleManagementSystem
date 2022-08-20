@@ -2,6 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\ApiController;
+use \App\Http\Controllers\ArticleController;
+use \App\Http\Controllers\Filter\FilterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,10 +21,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-use \App\Http\Controllers\ArticleController;
-use \App\Http\Controllers\Filter\FilterController;
 
-Route::prefix('dashboard/')->name('dashboard.')->group(function () {
+
+Route::prefix('dashboard/')->middleware(['jwt.verify'])->name('dashboard.')->group(function () {
 
     //*******************define article
     Route::get('defineArticle', [ArticleController::class, 'create'])->name('defineArticle.create');
@@ -50,15 +52,23 @@ Route::prefix('dashboard/')->name('dashboard.')->group(function () {
     Route::post('deleteContributor', [ArticleController::class, 'deleteContributor'])->name('deleteContributor');
 
 
-    //login/register
-    Route::get('editArticle', [ArticleController::class, 'edit'])->name('editArticle');
+    //*******************logout
+    Route::get('logout', [ApiController::class, 'logout']);
+    Route::get('get_user', [ApiController::class, 'get_user']);
 
 
-    Route::get('hello', function (Request $request) {
-
-
-    });
 });
 
-//Accept/Reject the invitation (Because no message is going to be composed by the user so this route is out of the dashboard route group.)
+//*******************login/register
+Route::post('login', [ApiController::class, 'authenticate']);
+Route::post('register', [ApiController::class, 'register']);
+
+//*******************Accept/Reject the invitation (Because no message is going to be composed by the user so this route is out of the dashboard route group.)
 Route::get('invitationResponse/{articleID}/{userID}/{parameter}', [ArticleController::class, 'invitationResponse'])->name('invitationResponse')->middleware(['signed']);
+
+
+
+Route::get('hello', function (Request $request) {
+
+
+});
