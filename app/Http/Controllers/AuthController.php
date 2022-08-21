@@ -19,11 +19,26 @@ class AuthController extends Controller
     {
         $validated = Validator::make($request->all(), ["username" => "required|string", "password" => "required|string"]);
 
+        if ($validated->fails()){
+            $results = structuredJson("", "error", "Your credentials are invalidated!", 401);
+            return response()->json($results[0], $results[1], $results[2], $results[3]);
+        }
 
+        $token = auth()->attempt($validated->validated());
+        if (!$token) {
+            $results = structuredJson("", "error", "Invalid Email or Password", 401);
+            return response()->json($results[0], $results[1], $results[2], $results[3]);
+        }
+
+        $results = structuredJson($token);
+        return response()->json($results[0], $results[1], $results[2], $results[3]);
     }
 
     public function logout(Request $request, BaseRepository $baseRepository)
     {
+        auth()->logout();
+        $results = structuredJson("You have successfully logged out!");
+        return response()->json($results[0], $results[1], $results[2], $results[3]);
 
     }
 
