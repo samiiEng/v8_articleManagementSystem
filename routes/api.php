@@ -58,6 +58,9 @@ Route::prefix('dashboard/')->middleware(['jwt.verify'])->name('dashboard.')->gro
     //*******************logout
     Route::get('logout', [ApiController::class, 'logout']);
 
+    //*******************Account settings
+    Route::post("sendEmailVerificationAddress", [VerificationController::class, 'sendEmailVerification'])->name("sendEmailVerificationAddress");
+
 
 });
 //----------------------------------------------- End Of Dashboard Group -----------------------------------------------

@@ -42,7 +42,7 @@ class UserRepository
 
     public function find($id)
     {
-        return DB::select("SELECT * FROM users WHERE user_id = ?", [$id]);
+        return DB::select("SELECT * FROM users WHERE $id[0]", [$id[1]]);
     }
 
     public function softDelete()
