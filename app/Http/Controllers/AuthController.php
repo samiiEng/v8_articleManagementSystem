@@ -5,21 +5,24 @@ namespace App\Http\Controllers;
 use App\Repositories\BaseRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use \Illuminate\Support\Facades\Validator;
 
+
 class AuthController extends Controller
 {
-    public function login()
+    public function login(Request $request, BaseRepository $baseRepository)
     {
+        $validated = Validator::make($request->all(), ["username" => "required|string", "password" => "required|string"]);
 
 
     }
 
-    public function logout()
+    public function logout(Request $request, BaseRepository $baseRepository)
     {
 
     }

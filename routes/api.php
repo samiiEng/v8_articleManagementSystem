@@ -70,6 +70,9 @@ Route::prefix('dashboard/')->middleware(['jwt.verify'])->name('dashboard.')->gro
 //Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [UserController::class, 'store'])->name('register');
 Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'clickedEmailVerificationLink'])->name('verification.verified')->middleware(['signed']);
+Route::post('login', [AuthController::class, 'login'])->name('login');
+Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
 /*The first route is a form that gets the email and when the user clicks on the link then it goes to the second route and his/her email
  gets updated.*/
 Route::post("changeEmail", [VerificationController::class, 'requestChangeEmail'])->name("changeEmail");
