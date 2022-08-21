@@ -53,11 +53,12 @@ Route::prefix('dashboard/')->middleware(['jwt.verify'])->name('dashboard.')->gro
 
     Route::post('deleteContributor', [ArticleController::class, 'deleteContributor'])->name('deleteContributor');
 
-    //*******************List all users
+    //*******************List all users/activate users
     Route::get('listUsers/{isNewlyRegistered}', [UserController::class, 'index'])->name('listUsers');
+    Route::post('activateUser', [UserController::class, 'activateUsers'])->name('activateUser');
 
     //*******************logout
-    Route::get('logout', [ApiController::class, 'logout']);
+    Route::get('logout', [AuthController::class, 'logout']);
 
     //*******************Account settings
     Route::post("sendEmailVerificationAddress", [VerificationController::class, 'sendEmailVerification'])->name("sendEmailVerificationAddress");

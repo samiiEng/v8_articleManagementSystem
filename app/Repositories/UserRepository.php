@@ -9,10 +9,12 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class UserRepository
 {
-    public function index($isNewlyRegistered){
+    public function index($isNewlyRegistered)
+    {
         $isNewlyRegistered = $isNewlyRegistered ? "WHERE is_active IS NULL" : "";
         return DB::select("SELECT * FROM users $isNewlyRegistered");
     }
@@ -60,8 +62,22 @@ class UserRepository
 
     }
 
-    public function activateUsers(){
+    public function activateUsers(BaseRepository $baseRepository, $values)
+    {
+        $role = $values['role'];
+        $userID = $values['userID'];
+        $now = Carbon::now();
+        $baseRepository->update("users", ["role = ? AND is_active = ? AND updated_at = ? WHERE user_id = ?",
+            "$role, 1, $now, $userID"]);
+        $email = $baseRepository->find("users", ["WHERE user_id = ?", "$userID"])[0]->email;
+        $url = route("login");
 
+        Mail::send("email.verificationEmail", ["message" => "Your account is updated, you can use the following url to login", $url], function ($message) use($email){
+            $message->subject("Account activation announcement");
+            $message->to($email);
+        });
+
+        return "The account is successfully activated!";
     }
 
 }

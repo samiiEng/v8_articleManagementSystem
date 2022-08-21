@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Routing\Route;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +22,18 @@ class UpdateUserRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(Route $route)
     {
-        return [
-            //
-        ];
+        $method = $route->getActionMethod();
+        if ($method == "update") {
+            return [
+
+            ];
+        } elseif ($method == "activateUsers") {
+            return [
+                "userID" => "required|bigInteger",
+                "role" => "required|string",
+            ];
+        }
     }
 }
