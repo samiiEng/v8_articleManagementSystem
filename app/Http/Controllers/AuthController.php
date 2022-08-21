@@ -16,6 +16,7 @@ class AuthController extends Controller
     public function login()
     {
 
+
     }
 
     public function logout()
@@ -25,7 +26,7 @@ class AuthController extends Controller
 
     public function requestResetPassword(BaseRepository $baseRepository, Request $request)
     {
-        $validated = Validator::make($request->input('email'));
+        $validated = Validator::make($request->input('email'), ["email" => "required|email"]);
         $email = $validated['email'];
         $ifExists = $baseRepository->find("users", ["WHERE email = ?", "$email"]);
         if ($ifExists) {
