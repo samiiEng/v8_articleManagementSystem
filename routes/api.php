@@ -6,6 +6,7 @@ use \App\Http\Controllers\ArticleController;
 use \App\Http\Controllers\Filter\FilterController;
 use \App\Http\Controllers\UserController;
 use \App\Http\Controllers\VerificationController;
+use \App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,10 +66,16 @@ Route::prefix('dashboard/')->middleware(['jwt.verify'])->name('dashboard.')->gro
 });
 //----------------------------------------------- End Of Dashboard Group -----------------------------------------------
 
-//*******************login/register/email verification
-Route::post('login', [ApiController::class, 'authenticate']);
+//*******************login/register/email verification/change email/reset password
+//Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [UserController::class, 'store'])->name('register');
+Route::post("changeEmail", [VerificationController::class, 'changeEmail'])->name("changeEmail");
 Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'clickedEmailVerificationLink'])->name('verification.verified')->middleware(['signed']);
+Route::post('requestResetPassword', [AuthController::class, ''])->name('requetResetPassword');
+//Route::get('resetPassword', [AuthController::class, 'resetPassword'])->name('resetPasswordForm')->middleware(['signed']);
+Route::post('resetPassword', [AuthController::class, 'resetPassword'])->name('resetPassword');
+
+
 
 //*******************Accept/Reject the invitation (Because no message is going to be composed by the user so this route is out of the dashboard route group.)
 Route::get('invitationResponse/{articleID}/{userID}/{parameter}', [ArticleController::class, 'invitationResponse'])->name('invitationResponse')->middleware(['signed']);

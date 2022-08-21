@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\BaseRepository;
 use App\Repositories\UserRepository;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Validator;
 use \Illuminate\Support\Str;
 
 class VerificationController extends Controller
@@ -20,6 +25,22 @@ class VerificationController extends Controller
             $results = structuredJson("You still need to verify your phone number to have your account activated!");
         return response()->json($results[0], $results[1], $results[2], $results[3]);
 
+    }
+
+    public function changeEmail(Request $request, BaseRepository $baseRepository)
+    {
+        $validated = Validator::make($request->input('email'), ['email' => 'required|email']);
+        $email = $validated['email'];
+        $ifExist = $baseRepository->find("users", ['WHERE email = ?', $email]);
+        if ($ifExist) {
+            $url = URL::temporarySignedRoute('clickedEmailVerificationLink', now()->addHour());
+            Mail::send('email.verificationEmail', ['url' => $url, 'type' => 'emailVerification'], function ($message) use ($email) {
+                $message->to($email);
+                $message->subject('Password reset link');
+            });
+        } else {
+            return "This email does not exist in the database.";
+        }
     }
 
     /*public function phoneVerification()
