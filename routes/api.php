@@ -69,10 +69,15 @@ Route::prefix('dashboard/')->middleware(['jwt.verify'])->name('dashboard.')->gro
 //*******************login/register/email verification/change email/reset password
 //Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [UserController::class, 'store'])->name('register');
-Route::post("changeEmail", [VerificationController::class, 'changeEmail'])->name("changeEmail");
 Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'clickedEmailVerificationLink'])->name('verification.verified')->middleware(['signed']);
-Route::post('requestResetPassword', [AuthController::class, ''])->name('requetResetPassword');
-//Route::get('resetPassword', [AuthController::class, 'resetPassword'])->name('resetPasswordForm')->middleware(['signed']);
+/*The first route is a form that gets the email and when the user clicks on the link then it goes to the second route and his/her email
+ gets updated.*/
+Route::post("changeEmail", [VerificationController::class, 'requestChangeEmail'])->name("changeEmail");
+Route::get('email/verify/{id}/{newEmail}', [VerificationController::class, 'changeEmail'])->name('verifyChangedEmail');
+/*The first one is the form to enter the email address then when the user clicks on the link it goes to the second route with a form
+to enter his/her new password then the form would be submitted to the third route and get the user's info updated.*/
+Route::post('requestResetPassword', [AuthController::class, 'requestResetPassword'])->name('requestResetPassword');
+Route::get('resetPassword/{userID}', [AuthController::class, 'resetPassword'])->name('resetPasswordForm')->middleware(['signed']);
 Route::post('resetPassword', [AuthController::class, 'resetPassword'])->name('resetPassword');
 
 
@@ -83,6 +88,6 @@ Route::get('invitationResponse/{articleID}/{userID}/{parameter}', [ArticleContro
 
 
 Route::get('hello', function (Request $request) {
-
+print_r(\Illuminate\Support\Facades\URL::temporarySignedRoute('verifyChangedEmail', now()->addMinute()));
 
 });

@@ -9,7 +9,7 @@
 </head>
 <body>
 @if($type == "resetPassword")
-    <a href="{{route('verification.verified', [null, $token])}}">Click on this link if you want to reset your password</a>
+    <a href="{{$url}}">Click on this link if you want to reset your password</a>
 @else
     <a href="{{$url}}">click on this link to verify your email address.</a>
 @endif
